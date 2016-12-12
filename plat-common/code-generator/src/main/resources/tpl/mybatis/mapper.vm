@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+#[[<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">]]#
+<mapper namespace="${package}.dao.I${entityName}Dao">
+    <sql id="query${entityName}AllColumn">
+        SELECT
+#set($index = 0)
+#foreach ($entityColumn in $entityColumns)
+#if($index == $entityColumns.size() - 1)
+            $entityColumn.name AS $entityColumn.javaName
+#else
+            $entityColumn.name AS $entityColumn.javaName,
+#end
+#set($index = $index + 1)
+#end
+        FROM ${schemaName}#[[.]]#${tableName}
+    </sql>
+
+    <select id="queryById" resultType="${package}.entity.${entityName}">
+        <include refid="query${entityName}AllColumn"/>
+        WHERE ID = #{id}
+    </select>
+
+    <select id="query" resultType="${package}.entity.${entityName}">
+        <include refid="query${entityName}AllColumn"/>
+        WHERE 1 = 1
+#foreach ($entityColumn in $entityColumns)
+        <if test="${entityColumn.javaName} != null">
+            AND ${entityColumn.name} = #{${entityColumn.javaName}}
+        </if>
+#end
+    </select>
+
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="${package}.entity.${entityName}">
+        INSERT INTO ${schemaName}#[[.]]#${tableName}(
+#foreach ($entityColumn in $entityColumns)
+#if($entityColumn.name != "ID" && $entityColumn.name != "CREATE_TIME")
+#if($entityColumn.isNullable == "YES")
+            <if test="${entityColumn.javaName} != null">
+                ${entityColumn.name},
+            </if>
+#else
+            ${entityColumn.name},
+#end
+#end
+#end
+            CREATE_TIME
+        ) values (
+#foreach ($entityColumn in $entityColumns)
+#if($!entityColumn.name != "ID" && $entityColumn.name != "CREATE_TIME")
+#if($entityColumn.isNullable == "YES")
+            <if test="${entityColumn.javaName} != null">
+                #{${entityColumn.javaName}},
+            </if>
+#else
+            #{${entityColumn.javaName}},
+#end
+#end
+#end
+            #{createTime}
+        )
+    </insert>
+    <update id="update" parameterType="${package}.entity.${entityName}">
+        UPDATE ${schemaName}#[[.]]#${tableName} set
+#foreach ($entityColumn in $entityColumns)
+#if($entityColumn.name != "ID" && $entityColumn.name != "UPDATE_TIME" && $entityColumn.name != "CREATE_TIME")
+        <if test="${entityColumn.javaName} != null">
+            ${entityColumn.name} = #{${entityColumn.javaName}},
+        </if>
+#end
+#end
+        UPDATE_TIME = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+</mapper>
