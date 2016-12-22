@@ -1,4 +1,4 @@
-package org.jigang.plat.core.lang;
+package org.jigang.plat.core.lang.util;
 
 import java.util.Map;
 

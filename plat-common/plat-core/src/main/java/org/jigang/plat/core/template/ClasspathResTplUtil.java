@@ -3,7 +3,7 @@ package org.jigang.plat.core.template;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.jigang.plat.core.lang.MapUtil;
+import org.jigang.plat.core.lang.util.MapUtil;
 
 import java.io.IOException;
 import java.io.StringWriter;
