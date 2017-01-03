@@ -21,6 +21,10 @@ public class StringUtil {
         return hasLength((CharSequence) str);
     }
 
+    public static boolean notHasLength(String str) {
+        return !hasLength(str);
+    }
+
     public static boolean hasLength(CharSequence str) {
         return (str != null && str.length() > 0);
     }

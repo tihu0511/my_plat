@@ -18,6 +18,7 @@
         <module>code-generator</module>
         <module>plat-core</module>
         <module>plat-file-common</module>
+        <module>plat-spring-common</module>
     </modules>
 
     <properties>
