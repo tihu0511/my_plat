@@ -507,7 +507,7 @@
         </pluginManagement>
     </build>
 
-    <distributionManagement>
+    <!--<distributionManagement>
         <repository>
             <uniqueVersion>true</uniqueVersion>
             <id>releases</id>
@@ -522,5 +522,5 @@
             <url>http://10.0.20.242/nexus/content/repositories/snapshots/</url>
             <layout>default</layout>
         </snapshotRepository>
-    </distributionManagement>
+    </distributionManagement>-->
 </project>
