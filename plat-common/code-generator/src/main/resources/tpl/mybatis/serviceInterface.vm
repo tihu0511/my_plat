@@ -15,7 +15,13 @@ public interface $serviceInterfaceName {
 	* 通用查询 $entityName
 	* @param $entityVar
 	*/
-	public List<${entityName}> query($entityName $entityVar);
+	public List<${entityName}> queryList($entityName $entityVar);
+
+	/**
+	* 通用查询 $entityName
+	* @param $entityVar
+	*/
+	public ${entityName} queryOne($entityName $entityVar);
 
 	/**
 	  * 根据id查询 $entityName

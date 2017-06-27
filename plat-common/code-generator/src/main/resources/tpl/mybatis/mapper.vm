@@ -20,7 +20,17 @@
         WHERE ID = #{id}
     </select>
 
-    <select id="query" resultType="${package}.entity.${entityName}">
+    <select id="queryList" resultType="${package}.entity.${entityName}">
+        <include refid="query${entityName}AllColumn"/>
+        WHERE 1 = 1
+#foreach ($entityColumn in $entityColumns)
+        <if test="${entityColumn.javaName} != null">
+            AND ${entityColumn.name} = #{${entityColumn.javaName}}
+        </if>
+#end
+    </select>
+
+    <select id="queryOne" resultType="${package}.entity.${entityName}">
         <include refid="query${entityName}AllColumn"/>
         WHERE 1 = 1
 #foreach ($entityColumn in $entityColumns)
@@ -33,7 +43,7 @@
     <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="${package}.entity.${entityName}">
         INSERT INTO ${schemaName}#[[.]]#${tableName}(
 #foreach ($entityColumn in $entityColumns)
-#if($entityColumn.name != "ID" && $entityColumn.name != "CREATE_TIME")
+#if($entityColumn.name != "ID" && $entityColumn.name != "CREATE_TIME" && $entityColumn.name != "id" && $entityColumn.name != "create_time")
 #if($entityColumn.isNullable == "YES")
             <if test="${entityColumn.javaName} != null">
                 ${entityColumn.name},
@@ -46,7 +56,7 @@
             CREATE_TIME
         ) values (
 #foreach ($entityColumn in $entityColumns)
-#if($!entityColumn.name != "ID" && $entityColumn.name != "CREATE_TIME")
+#if($!entityColumn.name != "ID" && $entityColumn.name != "CREATE_TIME" && $entityColumn.name != "id" && $entityColumn.name != "create_time")
 #if($entityColumn.isNullable == "YES")
             <if test="${entityColumn.javaName} != null">
                 #{${entityColumn.javaName}},
@@ -62,7 +72,7 @@
     <update id="update" parameterType="${package}.entity.${entityName}">
         UPDATE ${schemaName}#[[.]]#${tableName} set
 #foreach ($entityColumn in $entityColumns)
-#if($entityColumn.name != "ID" && $entityColumn.name != "UPDATE_TIME" && $entityColumn.name != "CREATE_TIME")
+#if($entityColumn.name != "ID" && $entityColumn.name != "UPDATE_TIME" && $entityColumn.name != "CREATE_TIME" && $entityColumn.name != "id" && $entityColumn.name != "update_time" && $entityColumn.name != "create_time")
         <if test="${entityColumn.javaName} != null">
             ${entityColumn.name} = #{${entityColumn.javaName}},
         </if>

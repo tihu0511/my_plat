@@ -20,8 +20,16 @@ public class $serviceImplName implements $serviceInterfaceName {
 	* 通用查询 $entityName
 	* @param $entityVar
 	*/
-	public List<${entityName}> query($entityName $entityVar) {
-		return $daoVar#[[.]]#query($entityVar);
+	public List<${entityName}> queryList($entityName $entityVar) {
+		return $daoVar#[[.]]#queryList($entityVar);
+	}
+
+	/**
+	* 通用查询 $entityName
+	* @param $entityVar
+	*/
+	public ${entityName} queryOne($entityName $entityVar) {
+		return $daoVar#[[.]]#queryOne($entityVar);
 	}
 
 	/**
